@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 
 public class RulesTest {
 
-	Context context = new Context();
+	Context context = new Context("/org/example/drools/hello/helloWorld.drl");
 
 	@Test
 	public void shouldFireHelloWorld() throws IOException, DroolsParserException {

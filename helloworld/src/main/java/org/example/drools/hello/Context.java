@@ -16,6 +16,12 @@ import java.util.function.Consumer;
 
 public class Context {
 
+	private final String ruleResourcename;
+
+	public Context(String ruleResourcename) {
+		this.ruleResourcename = ruleResourcename;
+	}
+
 	public RuleBase initialiseDrools() throws IOException, DroolsParserException {
 		PackageBuilder packageBuilder = readRuleFiles();
 		return addRulesToWorkingMemory(packageBuilder);
@@ -29,7 +35,7 @@ public class Context {
 
 	private PackageBuilder readRuleFiles() throws DroolsParserException, IOException {
 		PackageBuilder packageBuilder = new PackageBuilder();
-		packageBuilder.addPackageFromDrl(getRuleFileAsReader("/org/example/drools/hello/helloWorld.drl"));
+		packageBuilder.addPackageFromDrl(getRuleFileAsReader(ruleResourcename));
 		handlePossibleErrors(packageBuilder);
 		return packageBuilder;
 	}
