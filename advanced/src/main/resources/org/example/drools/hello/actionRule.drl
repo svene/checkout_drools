@@ -1,0 +1,9 @@
+import org.example.drools.hello.message.Message;
+import org.example.drools.hello.action.Action;
+
+rule "Act on high value in message"
+when
+  message:Message (messageValue > 17)
+then
+  new org.example.drools.hello.action.Action().performAction(message);
+end

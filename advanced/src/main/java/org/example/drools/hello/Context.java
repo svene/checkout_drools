@@ -12,14 +12,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class Context {
 
-	private final String ruleResourcename;
+	private final String[] ruleResourcenames;
 
-	public Context(String ruleResourcename) {
-		this.ruleResourcename = ruleResourcename;
+	public Context(String...ruleResourcenames) {
+		this.ruleResourcenames = ruleResourcenames;
 	}
 
 	public RuleBase initialiseDrools() throws IOException, DroolsParserException {
@@ -27,16 +28,22 @@ public class Context {
 		return addRulesToWorkingMemory(packageBuilder);
 	}
 
-	public WorkingMemory initializeMessageObjects(RuleBase ruleBase, Consumer<WorkingMemory> workingMemoryConsumer) {
+	public WorkingMemory initializeMessageObjects(RuleBase ruleBase,
+		List<Consumer<WorkingMemory>> workingMemoryConsumers
+	) {
 		WorkingMemory workingMemory = ruleBase.newStatefulSession();
-		workingMemoryConsumer.accept(workingMemory);
+		workingMemoryConsumers.forEach(c -> {
+			c.accept(workingMemory);
+		});
 		return workingMemory;
 	}
 
 	private PackageBuilder readRuleFiles() throws DroolsParserException, IOException {
 		PackageBuilder packageBuilder = new PackageBuilder();
-		packageBuilder.addPackageFromDrl(getRuleFileAsReader(ruleResourcename));
-		handlePossibleErrors(packageBuilder);
+		for (String ruleResourcename : ruleResourcenames) {
+			packageBuilder.addPackageFromDrl(getRuleFileAsReader(ruleResourcename));
+			handlePossibleErrors(packageBuilder);
+		}
 		return packageBuilder;
 	}
 

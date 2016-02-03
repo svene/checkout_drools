@@ -1,4 +1,4 @@
-import org.example.drools.hello.Message
+import org.example.drools.hello.message.Message
 
 rule "Hello World"
 when
