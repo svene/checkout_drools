@@ -1,0 +1,15 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  compile 'org.drools:drools-compiler:5.4.0.Final'
+  testCompile 'junit:junit:4.12'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
